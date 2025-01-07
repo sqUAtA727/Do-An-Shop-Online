@@ -1,43 +1,44 @@
 package DoAn.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.util.Map;
 
 public class Bill {
     private static int autoID;
     private int id;
-    private ArrayList<Product> products;
-    private ArrayList<Integer> amounts;
-    private int totalPrice;
+    private Cart cart;
+    private Account account;
+    private BigDecimal totalPrice;
     private LocalDate buyDate;
 
-    public Bill(ArrayList<Product> products, ArrayList<Integer> amounts) {
+    public Bill(Cart cart, Account account) {
         this.id = ++autoID;
-        this.products = products;
-        this.amounts = amounts;
+        this.cart = cart;
+        this.account = account;
         this.buyDate = LocalDate.now();
     }
 
-    public ArrayList<Product> getProducts() {
-        return products;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setProducts(ArrayList<Product> products) {
-        this.products = products;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
-    public ArrayList<Integer> getAmounts() {
-        return amounts;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAmounts(ArrayList<Integer> amounts) {
-        this.amounts = amounts;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public int getTotalPrice() {
-        totalPrice = 0;
-        for (Product product : products){
-            totalPrice = totalPrice + product.getPrice() * amounts.get(products.indexOf(product));
+    public BigDecimal getTotalPrice() {
+        totalPrice = BigDecimal.ZERO;
+        for (Map.Entry<Product, Integer> entry : cart.getCartProductListAndQuantity().entrySet()){
+            totalPrice = totalPrice.add(entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())));
         }
         return totalPrice;
     }
@@ -54,8 +55,8 @@ public class Bill {
     public String toString() {
         return "Bill{" +
                 "id=" + id +
-                ", products=" + products +
-                ", amounts=" + amounts +
+                ", cart=" + cart +
+                ", account=" + account +
                 ", totalPrice=" + getTotalPrice() +
                 ", buyDate=" + buyDate +
                 '}';

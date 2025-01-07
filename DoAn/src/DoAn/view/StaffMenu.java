@@ -7,6 +7,7 @@ import DoAn.entity.Staff;
 import DoAn.service.StaffService;
 import DoAn.utils.Utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -31,12 +32,12 @@ public class StaffMenu {
         int choose = 0;
         while (choose != 7) {
             displayMenu(staff.getUsername());
-            choose = Utils.inputInteger(scanner);;
+            choose = Utils.inputInteger(scanner);
             switch (choose) {
                 case 1:
                     System.out.println("Nhập số tiền bạn muốn nạp vào tài khoản");
-                    int addMoney = Utils.inputInteger(scanner);
-                    int newAccountBalance = staff.getWallet().getAccountBalance() + addMoney;
+                    BigDecimal addMoney = Utils.inputBigDecimal(scanner);
+                    BigDecimal newAccountBalance = staff.getWallet().getAccountBalance().add(addMoney);
                     staff.getWallet().setAccountBalance(newAccountBalance);
                     break;
                 case 2:
@@ -47,7 +48,7 @@ public class StaffMenu {
                     break;
                 case 4:
                     System.out.println("Nhập id hàng bạn muốn chỉnh sửa: ");
-                    int id = Utils.inputInteger(scanner);;
+                    int id = Utils.inputInteger(scanner);
                     Product product =staffService.findProductById(id, products);
                     if (product!=null){
                         selectModifyProductMenu(scanner, product);
@@ -86,19 +87,19 @@ public class StaffMenu {
         int choose = 0;
         while (choose!=4){
             displayModifyProductMenu();
-            choose = Utils.inputInteger(scanner);;
+            choose = Utils.inputInteger(scanner);
             switch (choose){
                 case 1:
                     System.out.println(product);
                     break;
                 case 2:
                     System.out.println("Nhập số hàng đã được nhập về: ");
-                    int restock = Utils.inputInteger(scanner);;
+                    int restock = Utils.inputInteger(scanner);
                     product.setStock(product.getStock()+restock);
                     break;
                 case 3:
                     System.out.println("Nhập giá mới: ");
-                    int newPrice = Utils.inputInteger(scanner);;
+                    BigDecimal newPrice = Utils.inputBigDecimal(scanner);
                     product.setPrice(newPrice);
                     break;
                 case 4:

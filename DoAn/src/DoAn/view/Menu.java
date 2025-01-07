@@ -40,6 +40,7 @@ public class Menu {
         String username = scanner.nextLine();
         System.out.println("Nhap password: ");
         String password = scanner.nextLine();
+        //
         service.loginService(username, password, accounts, scanner, products, bills, staffs);
     }
 
@@ -55,6 +56,7 @@ public class Menu {
     }
 
     public void wrongPasswordMenu(Scanner scanner, ArrayList<Account> accounts) {
+        System.out.println("Đăng nhập thất bại");
         System.out.println("1 - Đăng nhập lai\n" +
                 "2 - Quen mat khau");
         int choose = Integer.parseInt(scanner.nextLine());

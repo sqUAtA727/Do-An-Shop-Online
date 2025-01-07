@@ -1,13 +1,15 @@
 package DoAn.entity;
 
+import java.math.BigDecimal;
+
 public class Product {
     private static int autoID;
     private int id;
     private String name;
     private int stock;
-    private int price; //  vnđ
+    private BigDecimal price; //  vnđ
 
-    public Product(String name, int stock, int price) {
+    public Product(String name, int stock, BigDecimal price) {
         this.id = ++autoID;
         this.name = name;
         this.stock = stock;
@@ -30,11 +32,11 @@ public class Product {
         this.name = name;
     }
 
-    public int getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

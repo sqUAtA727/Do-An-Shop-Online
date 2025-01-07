@@ -1,20 +1,22 @@
 package DoAn.entity;
 
+import java.math.BigDecimal;
+
 public class Staff extends Account {
-    private int salary;
+    private BigDecimal salary;
     private String schedule; //Theo lịch trong tuần tức là từ T2 đến CN
 
-    public Staff(String username, String email, String password, int role, int salary, String schedule) {
-        super(username, email, password, role);
+    public Staff(String username, String email, String password, Wallet wallet, int role, BigDecimal salary, String schedule) {
+        super(username, email, password, wallet, role);
         this.salary = salary;
         this.schedule = schedule;
     }
 
-    public int getSalary() {
+    public BigDecimal getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(BigDecimal salary) {
         this.salary = salary;
     }
 
@@ -33,7 +35,8 @@ public class Staff extends Account {
                 ", email='" + getEmail() + '\'' +
                 ", password='" + getPassword() + '\'' +
                 ", role=" + getRole() +
-                "salary=" + salary +
+                ", wallet=" + getWallet() +
+                ", salary=" + salary +
                 ", schedule='" + schedule + '\'' +
                 '}';
     }

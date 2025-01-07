@@ -1,13 +1,11 @@
 package DoAn.view;
 
-import DoAn.entity.Account;
-import DoAn.entity.Bill;
-import DoAn.entity.Product;
-import DoAn.entity.Staff;
+import DoAn.entity.*;
 import DoAn.service.AccountService;
 import DoAn.service.AdminService;
 import DoAn.utils.Utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -28,16 +26,16 @@ public class AdminMenu {
                 0 - Thoát chương trình""");
     }
 
-    public void selectMenu(Scanner scanner, Account account, ArrayList<Product> products, ArrayList<Bill> bills, ArrayList<Account> accounts, ArrayList<Staff> staffs){
+    public void selectMenu(Scanner scanner, Admin admin, ArrayList<Product> products, ArrayList<Bill> bills, ArrayList<Account> accounts, ArrayList<Staff> staffs){
         int choose = 0;
         while (choose != 6){
-            displayMenu(account.getUsername());
+            displayMenu(admin.getUsername());
             choose = Utils.inputInteger(scanner);
             switch (choose){
                 case 1:
-                    int revenue = adminService.storeRevenue(bills);
+                    BigDecimal revenue = adminService.storeRevenue(bills);
                     System.out.println("Doanh thu cửa hàng: " + revenue);
-                    account.getWallet().setAccountBalance(revenue);
+                    admin.getWallet().setAccountBalance(revenue);
                     System.out.println("Đưa vào ví thành công");
                     break;
                 case 2:
@@ -50,7 +48,7 @@ public class AdminMenu {
                     modifyProductListMenu(scanner, products);
                     break;
                 case 5:
-                    accountMenu.mainSelectMenu(scanner, account, accounts);
+                    accountMenu.mainSelectMenu(scanner, admin, accounts);
                     break;
                 case 6:
                     System.out.println("Đăng xuất thành công");
@@ -135,7 +133,7 @@ public class AdminMenu {
             switch (choose){
                 case 1:
                     System.out.println("Nhập lương mới");
-                    staff.setSalary(Utils.inputInteger(scanner));
+                    staff.setSalary(Utils.inputBigDecimal(scanner));
                     break;
                 case 2:
                     System.out.println("Nhập lịch làm việc mới");
@@ -163,7 +161,7 @@ public class AdminMenu {
         int choose = 0;
         while (choose!=5){
             displayModifyProductListMenu();
-            choose = Utils.inputInteger(scanner);;
+            choose = Utils.inputInteger(scanner);
             switch (choose){
                 case 1:
                     System.out.println(products);
@@ -174,7 +172,7 @@ public class AdminMenu {
                     System.out.println("Nhập số hàng nhập vào: ");
                     int stock = Utils.inputInteger(scanner);
                     System.out.println("Nhập vào giá hàng: ");
-                    int price = Utils.inputInteger(scanner);
+                    BigDecimal price = Utils.inputBigDecimal(scanner);
                     products.add(new Product(productName, stock, price));
                     break;
                 case 3:
@@ -225,7 +223,7 @@ public class AdminMenu {
                     break;
                 case 3:
                     System.out.println("Nhập giá mới: ");
-                    int newPrice = Utils.inputInteger(scanner);
+                    BigDecimal newPrice = Utils.inputBigDecimal(scanner);
                     product.setPrice(newPrice);
                     break;
                 case 4:

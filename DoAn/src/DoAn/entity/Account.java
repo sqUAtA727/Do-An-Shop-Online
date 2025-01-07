@@ -39,14 +39,6 @@ public class Account {
         this.password = password;
     }
 
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
-
     public Wallet getWallet() {
         return wallet;
     }
@@ -55,12 +47,21 @@ public class Account {
         this.wallet = wallet;
     }
 
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "Account{" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", wallet=" + wallet +
                 ", role=" + role +
                 '}';
     }

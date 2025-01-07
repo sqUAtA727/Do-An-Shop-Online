@@ -7,6 +7,7 @@ import DoAn.view.CustomerMenu;
 import DoAn.view.Menu;
 import DoAn.view.StaffMenu;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
@@ -17,20 +18,26 @@ public class AccountService {
         StaffMenu staffMenu = new StaffMenu();
         CustomerMenu customerMenu = new CustomerMenu();
         Menu menu = new Menu();
+        String found = "false";
         for (Account account : accounts) {
             if (Objects.equals(account.getUsername(), username) && Objects.equals(account.getPassword(), password)) {
                 System.out.println("Dang nhap thanh cong");
+                found = "true";
                 if (account.getRole()==2){
                     Staff staff = (Staff) account;
                     staffMenu.selectMenu(scanner, staff, products, bills, accounts);
                 } else if (account.getRole()==3) {
-                    customerMenu.selectMenu(scanner, account, products, accounts, bills);
+                    Customer customer = (Customer) account;
+                    customerMenu.selectMenu(scanner, customer, products, accounts, bills);
                 } else {
-                    adminMenu.selectMenu(scanner, account, products, bills, accounts, staffs);
+                    Admin admin = (Admin) account;
+                    adminMenu.selectMenu(scanner, admin, products, bills, accounts, staffs);
                 }
-            } else {
-                menu.wrongPasswordMenu(scanner, accounts);
+                break;
             }
+        }
+        if (found.equals("false")){
+            menu.wrongPasswordMenu(scanner, accounts);
         }
     }
 
@@ -59,14 +66,15 @@ public class AccountService {
             System.out.println("Tao tai khoan moi thanh cong");
             if (role==2){
                 System.out.println("Nhập lương nhân viên theo tháng (vnd): ");
-                int salary = Utils.inputInteger(scanner);
+                BigDecimal salary = Utils.inputBigDecimal(scanner);
                 System.out.println("Nhap lich lam viec cua nhan vien: ");
                 String schedule = scanner.nextLine();
-                Staff staff = new Staff(username, email, password, role, salary, schedule);
+                Staff staff = new Staff(username, email, password, new Wallet(new BigDecimal(0)), role, salary, schedule);
                 accounts.add(staff);
                 staffs.add(staff);
             } else {
-                accounts.add(new Account(username, email, password, new Wallet(0), role));
+                Customer customer = new Customer(username, email, password, new Wallet(new BigDecimal(0)), role, new Cart());
+                accounts.add(customer);
             }
         } else {
             System.out.println("Username hoac email da ton tai");

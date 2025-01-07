@@ -4,14 +4,15 @@ import DoAn.entity.Bill;
 import DoAn.entity.Product;
 import DoAn.entity.Staff;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class AdminService {
-    public Integer storeRevenue(ArrayList<Bill> bills) {
-        int revenue = 0;
+    public BigDecimal storeRevenue(ArrayList<Bill> bills) {
+        BigDecimal revenue = BigDecimal.valueOf(0);
         for (Bill bill : bills) {
-            revenue = revenue + bill.getTotalPrice();
+            revenue = revenue.add(bill.getTotalPrice());
         }
         return revenue;
     }

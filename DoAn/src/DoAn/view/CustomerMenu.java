@@ -2,11 +2,12 @@ package DoAn.view;
 
 import DoAn.entity.Account;
 import DoAn.entity.Bill;
-import DoAn.entity.Cart;
+import DoAn.entity.Customer;
 import DoAn.entity.Product;
 import DoAn.service.CustomerService;
 import DoAn.utils.Utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,39 +21,38 @@ public class CustomerMenu {
                 1 - Nạp tiền vào ví điện tử
                 2 - Xem thông tin về hàng
                 3 - Xem thông tin về số tiền còn lại trong tài khoản
-                4 - Mua hàng (Mỗi lần mua hàng sẽ là 1 giỏ hàng và hóa đơn mới)
+                4 - Mua hàng
                 5 - Chỉnh sửa thông tin tài khoản của bạn (Sẽ vào menu chỉnh sửa thông tin riêng)
                 6 - Đăng xuất (Sau khi đăng xuất quay về mục yêu cầu đăng nhập hoặc đăng ký)
                 0 - Thoát chương trình""");
     }
 
-    public void selectMenu(Scanner scanner, Account account, ArrayList<Product> products, ArrayList<Account> accounts, ArrayList<Bill> bills) {
+    public void selectMenu(Scanner scanner, Customer customer, ArrayList<Product> products, ArrayList<Account> accounts, ArrayList<Bill> bills) {
         Bill bill = null;
         int choose = 0;
         while (choose != 6) {
-            displayMenu(account.getUsername());
-            choose = Utils.inputInteger(scanner);;
+            displayMenu(customer.getUsername());
+            choose = Utils.inputInteger(scanner);
             switch (choose) {
                 case 1:
                     System.out.println("Nhập số tiền bạn muốn nạp vào tài khoản");
-                    int addMoney = Utils.inputInteger(scanner);
-                    int newAccountBalance = account.getWallet().getAccountBalance() + addMoney;
-                    account.getWallet().setAccountBalance(newAccountBalance);
+                    BigDecimal addMoney = Utils.inputBigDecimal(scanner);
+                    BigDecimal newAccountBalance = customer.getWallet().getAccountBalance().add(addMoney);
+                    customer.getWallet().setAccountBalance(newAccountBalance);
                     break;
                 case 2:
                     System.out.println(products);
                     break;
                 case 3:
-                    System.out.println("So tien con lai trong tai khoan: " + account.getWallet().getAccountBalance());
+                    System.out.println("So tien con lai trong tai khoan: " + customer.getWallet().getAccountBalance());
                     break;
                 case 4:
-                    Cart cart = new Cart();
-                    bill = getBillMenu(scanner, products, cart);
+                    bill = getBillMenu(scanner, products, customer);
                     System.out.println(bill);
-                    customerService.payment(account, bill, bills);
+                    customerService.payment(customer, bill, bills);
                     break;
                 case 5:
-                    accountMenu.mainSelectMenu(scanner, account, accounts);
+                    accountMenu.mainSelectMenu(scanner, customer, accounts);
                     break;
                 case 6:
                     System.out.println("Dang xuat thanh cong");
@@ -66,29 +66,33 @@ public class CustomerMenu {
         }
     }
 
-    public Bill getBillMenu(Scanner scanner, ArrayList<Product> products, Cart cart) {
+    public Bill getBillMenu(Scanner scanner, ArrayList<Product> products, Customer customer) {
         int choose = 0;
         while (true) {
             System.out.println("""
-                    1 - Thêm mặt hàng và số lượng
-                    2 - Xóa mặt hàng và số lượng
-                    3 - Đặt hàng và thanh toán""");
+                    1 - Xem giỏ hàng
+                    2 - Thêm mặt hàng và số lượng
+                    3 - Xóa mặt hàng và số lượng
+                    4 - Đặt hàng và thanh toán""");
             choose = Utils.inputInteger(scanner);
             switch (choose) {
                 case 1:
-                    System.out.println("Nhập id mặt hàng");
-                    int id = Utils.inputInteger(scanner);;
-                    System.out.println("Nhập số lượng");
-                    int amount = Utils.inputInteger(scanner);;
-                    customerService.getProduct(id, amount, products, cart);
+                    System.out.println(customer.getCart());
                     break;
                 case 2:
-                    System.out.println("Nhập id mặt hàng muốn xóa khỏi giỏ hàng: ");
-                    id = Utils.inputInteger(scanner);;
-                    cart.removeProduct(id);
+                    System.out.println("Nhập id mặt hàng");
+                    int id = Utils.inputInteger(scanner);
+                    System.out.println("Nhập số lượng");
+                    int amount = Utils.inputInteger(scanner);
+                    customerService.getProduct(id, amount, products, customer);
                     break;
                 case 3:
-                    return new Bill(cart.getProducts(), cart.getAmounts());
+                    System.out.println("Nhập id mặt hàng muốn xóa khỏi giỏ hàng: ");
+                    id = Utils.inputInteger(scanner);
+                    customerService.removeProduct(id, products, customer);
+                    break;
+                case 4:
+                    return new Bill(customer.getCart(), customer);
                 default:
                     System.out.println("Gia trị không hợp lệ vui lòng nhập lại");
                     break;
