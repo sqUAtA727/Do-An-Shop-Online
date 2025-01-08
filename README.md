@@ -33,3 +33,10 @@ Chỉnh sửa thông tin tài khoản: email, username, password
 Các entity khác:
 - Hóa đơn
 - Giỏ hàng
+
+Mô tả sơ lược bằng hình ảnh
+Về 1 vài yếu tố khi đăng nhập cũng như lưu trữ thông tin
+https://drive.google.com/file/d/1r6wX9IJkWRxF1pRTFd52UPjULYRDVtMO/view?usp=sharing
+
+Về 3 entity tài khoản
+https://drive.google.com/file/d/1J9aGv7L2awfzOJjsurzLFzMAqo953HZ_/view?usp=sharing
