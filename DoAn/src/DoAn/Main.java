@@ -11,7 +11,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Menu menu = new Menu();
-//        Tạo account admin cho 1 người dùng cùng với list lưu các tài khoản người dùng trừ staff
+//        Tạo account admin
+//        Chỉ có 1 admin và khi sửa thông tin sẽ sửa trực tiếp vào mã nguồn
         Admin admin = new Admin("admin", "admin@gmail.com", "daylaadmin", new Wallet(new BigDecimal(0)), 1);
         ArrayList<Account> accounts = new ArrayList<>();
         accounts.add(admin);

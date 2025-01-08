@@ -31,22 +31,29 @@ public class StaffMenu {
     public void selectMenu(Scanner scanner, Staff staff, ArrayList<Product> products, ArrayList<Bill> bills, ArrayList<Account> accounts) {
         int choose = 0;
         while (choose != 7) {
+//            Display
             displayMenu(staff.getUsername());
+
+//            Input
             choose = Utils.inputInteger(scanner);
             switch (choose) {
                 case 1:
+//                    Nạp tiền
                     System.out.println("Nhập số tiền bạn muốn nạp vào tài khoản");
                     BigDecimal addMoney = Utils.inputBigDecimal(scanner);
                     BigDecimal newAccountBalance = staff.getWallet().getAccountBalance().add(addMoney);
                     staff.getWallet().setAccountBalance(newAccountBalance);
                     break;
                 case 2:
+//                    Xem lịch
                     System.out.println(staff.getSchedule());
                     break;
                 case 3:
+//                    Xem list hàng hóa
                     System.out.println(products);
                     break;
                 case 4:
+//                    Sửa list hàng hóa
                     System.out.println("Nhập id hàng bạn muốn chỉnh sửa: ");
                     int id = Utils.inputInteger(scanner);
                     Product product =staffService.findProductById(id, products);
@@ -57,12 +64,15 @@ public class StaffMenu {
                     }
                     break;
                 case 5:
+//                    Xem các hóa đơn đã thanh toán
                     System.out.println(bills);
                     break;
                 case 6:
+//                    Sửa thông tin tài khoản
                     accountMenu.mainSelectMenu(scanner, staff, accounts);
                     break;
                 case 7:
+//                    Đăng xuất
                     System.out.println("Đăng xuất thành công");
                     break;
                 case 0:
@@ -86,23 +96,30 @@ public class StaffMenu {
     public void selectModifyProductMenu (Scanner scanner, Product product){
         int choose = 0;
         while (choose!=4){
+//            Display
             displayModifyProductMenu();
+
+//            Input
             choose = Utils.inputInteger(scanner);
             switch (choose){
                 case 1:
+//                    In thông tin sản phẩm
                     System.out.println(product);
                     break;
                 case 2:
+//                    Thêm hàng tồn kho
                     System.out.println("Nhập số hàng đã được nhập về: ");
                     int restock = Utils.inputInteger(scanner);
                     product.setStock(product.getStock()+restock);
                     break;
                 case 3:
+//                    Chỉnh sửa giá
                     System.out.println("Nhập giá mới: ");
                     BigDecimal newPrice = Utils.inputBigDecimal(scanner);
                     product.setPrice(newPrice);
                     break;
                 case 4:
+//                    Break
                     System.out.println("Quay về menu của staff");
                     break;
                 default:

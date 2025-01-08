@@ -14,15 +14,18 @@ import java.util.Scanner;
 
 public class AccountService {
     public void loginService(String username, String password, ArrayList<Account> accounts, Scanner scanner, ArrayList<Product> products, ArrayList<Bill> bills, ArrayList<Staff> staffs) {
+//        Login
         AdminMenu adminMenu = new AdminMenu();
         StaffMenu staffMenu = new StaffMenu();
         CustomerMenu customerMenu = new CustomerMenu();
         Menu menu = new Menu();
         String found = "false";
         for (Account account : accounts) {
+//            Tìm tài khoản
             if (Objects.equals(account.getUsername(), username) && Objects.equals(account.getPassword(), password)) {
                 System.out.println("Dang nhap thanh cong");
                 found = "true";
+//                Kiểm tra role tài khoản
                 if (account.getRole()==2){
                     Staff staff = (Staff) account;
                     staffMenu.selectMenu(scanner, staff, products, bills, accounts);
@@ -37,11 +40,13 @@ public class AccountService {
             }
         }
         if (found.equals("false")){
-            menu.wrongPasswordMenu(scanner, accounts);
+//            Chuyển sang menu nhập sai tài khoản
+            menu.wrongAccountMenu(scanner, accounts);
         }
     }
 
     public Account findAccountByUsername(String username, ArrayList<Account> accounts) {
+//        Tìm tài khoản bằng username
         for (Account account : accounts) {
             if (Objects.equals(account.getUsername(), username)) {
                 return account;
@@ -51,6 +56,7 @@ public class AccountService {
     }
 
     public Account findAccountByEmail(String email, ArrayList<Account> accounts) {
+//        Tìm tài khoản bằng email
         for (Account account : accounts) {
             if (Objects.equals(account.getEmail(), email)) {
                 return account;
@@ -60,11 +66,13 @@ public class AccountService {
     }
 
     public void registerService(Scanner scanner, String username, String email, String password, int role, ArrayList<Account> accounts, ArrayList<Staff> staffs) {
+//        Đăng ký
         Account accountUsername = findAccountByUsername(username, accounts);
         Account accountEmail = findAccountByEmail(email, accounts);
         if (accountUsername == null && accountEmail == null) {
             System.out.println("Tao tai khoan moi thanh cong");
             if (role==2){
+//                Đăng ký staff
                 System.out.println("Nhập lương nhân viên theo tháng (vnd): ");
                 BigDecimal salary = Utils.inputBigDecimal(scanner);
                 System.out.println("Nhap lich lam viec cua nhan vien: ");
@@ -73,6 +81,7 @@ public class AccountService {
                 accounts.add(staff);
                 staffs.add(staff);
             } else {
+//                Đăng ký customer
                 Customer customer = new Customer(username, email, password, new Wallet(new BigDecimal(0)), role, new Cart());
                 accounts.add(customer);
             }

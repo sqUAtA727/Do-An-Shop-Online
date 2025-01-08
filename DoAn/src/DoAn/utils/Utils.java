@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Utils {
     public static Integer inputInteger(Scanner scanner) {
+//        Dùng cho các exception Interger
         while (true) {
             try {
                 return Integer.parseInt(scanner.nextLine());
@@ -16,6 +17,7 @@ public class Utils {
     }
 
     public static BigDecimal inputBigDecimal(Scanner scanner) {
+//        Dùng khi cần nhập BigDecimal
         while (true) {
             String input = scanner.nextLine();
             try {

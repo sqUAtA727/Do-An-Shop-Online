@@ -28,33 +28,43 @@ public class CustomerMenu {
     }
 
     public void selectMenu(Scanner scanner, Customer customer, ArrayList<Product> products, ArrayList<Account> accounts, ArrayList<Bill> bills) {
+//        Tạo bill bên ngoài để phục vụ cho việc chỉnh sửa
         Bill bill = null;
         int choose = 0;
         while (choose != 6) {
+//            Display
             displayMenu(customer.getUsername());
+
+//            Input
             choose = Utils.inputInteger(scanner);
             switch (choose) {
                 case 1:
+//                    Nạp tiền
                     System.out.println("Nhập số tiền bạn muốn nạp vào tài khoản");
                     BigDecimal addMoney = Utils.inputBigDecimal(scanner);
                     BigDecimal newAccountBalance = customer.getWallet().getAccountBalance().add(addMoney);
                     customer.getWallet().setAccountBalance(newAccountBalance);
                     break;
                 case 2:
+//                    In list sản phẩm
                     System.out.println(products);
                     break;
                 case 3:
+//                    In số tiền trong tài khoản
                     System.out.println("So tien con lai trong tai khoan: " + customer.getWallet().getAccountBalance());
                     break;
                 case 4:
+//                   Đặt hàng lấy hóa đơn
                     bill = getBillMenu(scanner, products, customer);
                     System.out.println(bill);
                     customerService.payment(customer, bill, bills);
                     break;
                 case 5:
+//                    Sửa thông tin tài khoản
                     accountMenu.mainSelectMenu(scanner, customer, accounts);
                     break;
                 case 6:
+//                    Đăng xuất
                     System.out.println("Dang xuat thanh cong");
                     break;
                 case 0:
@@ -69,17 +79,22 @@ public class CustomerMenu {
     public Bill getBillMenu(Scanner scanner, ArrayList<Product> products, Customer customer) {
         int choose = 0;
         while (true) {
+//            Display
             System.out.println("""
                     1 - Xem giỏ hàng
                     2 - Thêm mặt hàng và số lượng
                     3 - Xóa mặt hàng và số lượng
                     4 - Đặt hàng và thanh toán""");
+
+//            Input
             choose = Utils.inputInteger(scanner);
             switch (choose) {
                 case 1:
+//                    In giỏ hàng
                     System.out.println(customer.getCart());
                     break;
                 case 2:
+//                    Thêm hàng
                     System.out.println("Nhập id mặt hàng");
                     int id = Utils.inputInteger(scanner);
                     System.out.println("Nhập số lượng");
@@ -87,11 +102,13 @@ public class CustomerMenu {
                     customerService.getProduct(id, amount, products, customer);
                     break;
                 case 3:
+//                    Xóa hàng khỏi giỏ hàng
                     System.out.println("Nhập id mặt hàng muốn xóa khỏi giỏ hàng: ");
                     id = Utils.inputInteger(scanner);
                     customerService.removeProduct(id, products, customer);
                     break;
                 case 4:
+//                    Trả về hóa đơn
                     return new Bill(customer.getCart(), customer);
                 default:
                     System.out.println("Gia trị không hợp lệ vui lòng nhập lại");
